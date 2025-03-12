@@ -1,11 +1,18 @@
-import FetchProducts from "./components/FetchProduct.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import Products from "./components/ProductDetails";
+import Dashboard from "./components/Dashboard";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <FetchProducts />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
