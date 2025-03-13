@@ -12,7 +12,18 @@ connectDB();
 
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+
+const corsOptions = {
+  origin: "http://localhost:5173", // ✅ Set your frontend URL explicitly
+  credentials: true, // ✅ Allow sending cookies with requests
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(express.json());
 app.use(cookieParser());
 

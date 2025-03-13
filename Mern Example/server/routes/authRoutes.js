@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import redisClient from "../config/redis.js";
 import { RedisStore } from "connect-redis";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
@@ -28,6 +29,7 @@ router.use(
 router.post("/register", async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log({ username, password });
 
     if (!username || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -52,12 +54,15 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
+    // console.log({ username, password });
 
     if (!username || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const user = await User.findOne({ username });
+    // console.log({user});
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -65,6 +70,8 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
+
+    // console.log({token});
 
     req.session.user = { id: user._id, username: user.username }; // Store user session in Redis
 
@@ -91,7 +98,10 @@ router.post("/logout", (req, res) => {
 });
 
 // Get Current User
-router.get("/me", (req, res) => {
+router.get("/me", verifyToken, (req, res) => {
+// router.get("/me", (req, res) => {
+  console.log(req.session.user);
+
   try {
     if (!req.session.user) {
       return res.status(401).json({ message: "Unauthorized" });
