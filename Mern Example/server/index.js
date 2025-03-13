@@ -4,11 +4,15 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import cors from "cors";
+import redisClient from "./config/redis.js";
 
 dotenv.config();
 connectDB();
 
+
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
