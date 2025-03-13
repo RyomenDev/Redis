@@ -1,4 +1,5 @@
-const redis = require("../config/redis");
+// const redis = require("../config/redis");
+import redis from "../config/redis.js";
 
 const cacheMiddleware = async (req, res, next) => {
   const { id } = req.params;
@@ -12,4 +13,5 @@ const cacheMiddleware = async (req, res, next) => {
   next();
 };
 
-module.exports = cacheMiddleware;
+// module.exports = cacheMiddleware;
+export default cacheMiddleware;

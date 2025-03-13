@@ -1,7 +1,7 @@
-const express = require("express");
-const session = require("express-session");
-const bcrypt = require("bcryptjs");
-const User = require("../models/User");
+import express from "express";
+import session from "express-session";
+import bcrypt from "bcryptjs";
+import User from "../models/User.js";
 // const redis = require("../config/redis");
 // const RedisStore = require("connect-redis").default;
 
@@ -57,4 +57,4 @@ router.get("/me", (req, res) => {
   res.json({ user });
 });
 
-module.exports = router;
+export default router;

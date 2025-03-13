@@ -1,9 +1,9 @@
-const express = require("express");
-const Product = require("../models/Product");
-const cacheMiddleware = require("../middleware/cacheMiddleware");
+// const express = require("express");
+// const Product = require("../models/Product");
+// const cacheMiddleware = require("../middleware/cacheMiddleware");
 // const redis = require("../config/redis");
 
-const router = express.Router();
+// const router = express.Router();
 
 // Get product with Redis caching
 // router.get("/:id", cacheMiddleware, async (req, res) => {
