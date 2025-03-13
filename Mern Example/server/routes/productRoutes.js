@@ -2,6 +2,7 @@ import express from "express";
 import Product from "../models/Product.js";
 import cacheMiddleware from "../middleware/cacheMiddleware.js";
 import redisClient from "../config/redis.js";
+import rateLimiter from "../middleware/rateLimiter.js";
 
 const router = express.Router();
 
@@ -21,11 +22,22 @@ router.get("/:id", cacheMiddleware, async (req, res) => {
 });
 
 // Get all products
-router.get("/", async (req, res) => {
-  console.log("fetching all products");
-  const products = await Product.find();
-  res.json(products);
+// router.get("/", async (req, res) => {
+//   console.log("fetching all products");
+//   const products = await Product.find();
+//   res.json(products);
+// });
+router.get("/", rateLimiter, async (req, res) => {
+  try {
+    console.log("Fetching all products");
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
+
 
 // Add new product
 router.post("/", async (req, res) => {

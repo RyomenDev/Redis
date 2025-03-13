@@ -40,8 +40,12 @@ const ProductDetails = () => {
           console.log("fetching all product");
 
           const response = await axios.get("http://localhost:5000/products");
+          //   console.log(response);
+
           setProducts(response.data);
         } catch (err) {
+          console.log(err.response);
+
           setError("Error fetching products");
         } finally {
           setLoading(false);
